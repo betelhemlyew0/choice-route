@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="choice-secure-propertyFlow" doc:id="88a8b57d-102d-4f14-9579-57dc8eda234e" >
+		<http:listener doc:name="Listener" doc:id="ba40ce07-ae78-4374-afce-2efcfab87b9f" config-ref="HTTP_Listener_config" path="/choice"/>
+		<logger level="INFO" doc:name="Logger" doc:id="850647fb-3054-45c9-a205-cb6d534eb582" message="start log"/>
+		<http:request method="GET" doc:name="Request" doc:id="d4b2339d-192d-41a3-bb7b-2798b9a8436c" config-ref="HTTP_Request_configuration" path="${secure::request.path}">
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="15a2141d-0ecf-447d-8a7a-b129a0305e86" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
